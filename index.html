@@ -134,6 +134,40 @@
             }
         }
     </style>
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        function initializeLiff(myLiffId) {
+          liff
+            .init({
+              liffId: myLiffId
+            })
+            .then(() => {
+              // LIFF initialization succeeded
+              console.log('LIFF initialized');
+              getUserProfile();
+            })
+            .catch((err) => {
+              // LIFF initialization failed
+              console.error('LIFF initialization failed', err);
+            });
+        }
+  
+        function getUserProfile() {
+          liff.getProfile()
+            .then(profile => {
+              const userId = profile.userId;
+              document.getElementById('userId').textContent = `ユーザーID: ${userId}`;
+            })
+            .catch((err) => {
+              console.error('プロフィール情報の取得に失敗しました', err);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+          const myLiffId = 'YOUR_LIFF_ID'; // ここにあなたのLIFF IDを入力してください
+          initializeLiff(myLiffId);
+
+        });
+      </script>
     <title>LIFF Starter</title>
   </head>
   <body>
@@ -145,6 +179,7 @@
           >LIFF Starter!</a
         >
       </h1>
+      <div id="userId" class="user-id">ユーザーIDを取得中...</div>
       <div class="home__badges">
         <span class="home__badges__badge badge--primary"> LIFF Starter </span>
         <span class="home__badges__badge badge--secondary"> vanilla </span>
